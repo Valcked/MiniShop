@@ -24,3 +24,8 @@ export async function fetchProducts(): Promise<Product[]> {
   const data = await safeJson<ProductsResponse>(res);
   return data.products;
 }
+
+export async function fetchProductById(id: number): Promise<Product> {
+  const res = await fetch(`https://dummyjson.com/products/${id}`);
+  return await safeJson<Product>(res);
+}
