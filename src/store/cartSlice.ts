@@ -65,6 +65,14 @@ export const cartSlice = createSlice({
       delete state.items[action.payload];
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase("persist/rehydrate" as any, (state, action: any) => {
+      const payload = action.payload as { cart?: CartState } | undefined;
+      if (payload?.cart?.items) {
+        state.items = payload.cart.items;
+      }
+    });
+  },
 });
 
 export const { addToCart, incQty, decQty, removeItem } = cartSlice.actions;

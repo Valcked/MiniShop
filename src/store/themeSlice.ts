@@ -18,6 +18,14 @@ export const themeSlice = createSlice({
       state.mode = state.mode === "light" ? "dark" : "light";
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase("persist/rehydrate" as any, (state, action: any) => {
+      const payload = action.payload as { theme?: ThemeState } | undefined;
+      if (payload?.theme?.mode) {
+        state.mode = payload.theme.mode;
+      }
+    });
+  },
 });
 
 export const { toggleTheme } = themeSlice.actions;
