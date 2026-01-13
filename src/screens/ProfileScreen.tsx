@@ -6,6 +6,7 @@ import type { RootTabParamList } from "../navigation/types";
 import { selectSubtotal, selectTotalItems, selectThemeMode } from "../store/selectors";
 import { themeTokens } from "../theme/theme";
 import { toggleTheme } from "../store/themeSlice";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 type Props = BottomTabScreenProps<RootTabParamList, "Profile">;
@@ -17,14 +18,15 @@ export function ProfileScreen({ navigation }: Props) {
     const t = themeTokens(mode);
     const dispatch = useDispatch();
 
-    return (
-       <View
-      style={{
-        flex: 1,
-        padding: 16,
-        gap: 12,
-        backgroundColor: t.bg,
-      }}
+return (
+  <SafeAreaView
+    style={{
+      flex: 1,
+      padding: 16,
+      gap: 12,
+      backgroundColor: t.bg,
+    }}
+
     >
       <Text
         style={{
@@ -90,6 +92,6 @@ export function ProfileScreen({ navigation }: Props) {
   </Text>
 </Pressable>
 
-    </View>
+    </SafeAreaView>
   );
 }

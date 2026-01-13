@@ -1,5 +1,6 @@
 import React from "react";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { HomeStackParamList } from "../../navigation/types";
 import { useQuery } from "@tanstack/react-query";
@@ -27,81 +28,78 @@ export function ProductDetailScreen({ route }: Props) {
 
   if (q.isLoading) {
     return (
-      <View style={{ flex: 1, backgroundColor: t.bg }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: t.bg }}>
         <LoadingState />
-      </View>
+      </SafeAreaView>
     );
   }
 
   if (q.isError) {
     return (
-      <View style={{ flex: 1, backgroundColor: t.bg }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: t.bg }}>
         <ErrorState
           message={(q.error as Error).message}
           onRetry={() => q.refetch()}
         />
-      </View>
+      </SafeAreaView>
     );
   }
 
   const p = q.data;
 
   return (
-    <ScrollView
-      contentContainerStyle={{
-        padding: 16,
-        gap: 12,
-        backgroundColor: t.bg,
-        flexGrow: 1,
-      }}
-    >
-      <Text style={{ fontSize: 22, fontWeight: "900", color: t.text }}>
-        {p.title}
-      </Text>
+    <SafeAreaView style={{ flex: 1, backgroundColor: t.bg }}>
+      <ScrollView contentContainerStyle={{ padding: 16, gap: 12 }}>
+        <Text style={{ fontSize: 22, fontWeight: "900", color: t.text }}>
+          {p.title}
+        </Text>
 
-      <Image
-        source={{ uri: p.thumbnail }}
-        style={{
-          width: "100%",
-          height: 220,
-          borderRadius: 16,
-          backgroundColor: "#ddd",
-        }}
-      />
+        <Image
+          source={{ uri: p.thumbnail }}
+          style={{
+            width: "100%",
+            height: 220,
+            borderRadius: 16,
+            backgroundColor: "#ddd",
+          }}
+        />
 
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <Text style={{ fontWeight: "800", color: t.text }}>€ {p.price}</Text>
-        <Text style={{ color: t.text }}>Rating: {p.rating}</Text>
-      </View>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <Text style={{ fontWeight: "800", color: t.text }}>€ {p.price}</Text>
+          <Text style={{ color: t.text }}>Rating: {p.rating}</Text>
+        </View>
 
-      <View
-        style={{
-          borderWidth: 1,
-          borderRadius: 14,
-          padding: 12,
-          borderColor: t.border,
-          backgroundColor: t.card,
-        }}
-      >
-        <Text style={{ lineHeight: 20, color: t.text }}>{p.description}</Text>
-      </View>
+        <View
+          style={{
+            borderWidth: 1,
+            borderRadius: 14,
+            padding: 12,
+            borderColor: t.border,
+            backgroundColor: t.card,
+          }}
+        >
+          <Text style={{ lineHeight: 20, color: t.text }}>{p.description}</Text>
+        </View>
 
-      <Pressable
-        onPress={() => dispatch(addToCart(p))}
-        style={{
-          marginTop: 8,
-          paddingVertical: 12,
-          borderRadius: 14,
-          borderWidth: 1,
-          borderColor: t.border,
-          alignItems: "center",
-          backgroundColor: t.card,
-        }}
-      >
-        <Text style={{ fontWeight: "900", color: t.text }}>Add to cart</Text>
-      </Pressable>
+        <Pressable
+          onPress={() => dispatch(addToCart(p))}
+          style={{
+            marginTop: 8,
+            paddingVertical: 12,
+            borderRadius: 14,
+            borderWidth: 1,
+            borderColor: t.border,
+            alignItems: "center",
+            backgroundColor: t.card,
+          }}
+        >
+          <Text style={{ fontWeight: "900", color: t.text }}>Add to cart</Text>
+        </Pressable>
 
-      <Text style={{ opacity: 0.7, color: t.text }}>Product ID: {p.id}</Text>
-    </ScrollView>
+        <Text style={{ opacity: 0.7, color: t.text }}>Product ID: {p.id}</Text>
+
+        <View style={{ height: 16 }} />
+      </ScrollView>
+    </SafeAreaView>
   );
 }
